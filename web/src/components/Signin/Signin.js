@@ -31,16 +31,16 @@ class Signin extends React.Component {
         password: this.state.signInPassword
       })
     })
-      .then(response => response.json())
-      .then(user => {
-        if (user.email!== null) {
-          this.props.loadUser(user)
-          this.props.onRouteChange('home');
-          this.setState({err:false});
-        }else{
-          this.setState({err:true});
-        }
-      })
+    .then(response => response.json())
+    .then(user => {
+      if (user.email!== null && user.email!== undefined) {
+        this.props.loadUser(user)
+        this.props.onRouteChange('home');
+        this.setState({err:false});
+      }else{
+        this.setState({err:true});
+      }
+    })
   }
 
   render() {

@@ -4,6 +4,7 @@ import Signin from './components/Signin/Signin';
 import Register from './components/Register/Register';
 import Home from './components/Home/Home';
 import './App.css';
+import { error } from 'loglevel';
 
 const particlesOptions = {
   particles: {
@@ -39,16 +40,33 @@ class App extends Component {
     }})
   }
 
+  onDelete = () => {
+    fetch(`http://localhost:8080/api/delete?email=${this.state.user.email}`, {
+      method: 'GET', 
+      headers: {
+          'Content-Type': 'application/json'
+      }
+  })
+      .then(response => response.json())
+      .then(success => {
+        if (success) {
+          this.setState(initialState)
+        }
+      })
+  }
+
   onRouteChange = (route) => {
     this.setState({route: route});
     if (route === 'signout') {
       this.setState(initialState)
-    } else if (route === 'home') {
+    }else if (route === 'home') {
       this.setState({isSignedIn: true})
     }else if (route === 'update') {
       this.setState({isSignedIn: true,route:'register'})
     }else if (route === 'register') {
       this.setState({isSignedIn: false})
+    }else if( route === 'delete'){
+      this.onDelete();
     }
   }
 

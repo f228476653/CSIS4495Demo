@@ -1,26 +1,28 @@
 package com.example.demo4495.controllers;
 
 import com.example.demo4495.models.MemberAccount;
+import com.example.demo4495.services.DeleteService;
 import com.example.demo4495.services.RegisterService;
+import com.example.demo4495.services.SigninService;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.util.Map;
 
 @RestController
-@RequestMapping(value = "/api", produces = "application/json")
-public class RegisterController {
+public class DeleteController {
     @Autowired
-    MemberAccount memberAccount;
+    DeleteService deleteService;
 
-    @Autowired
-    RegisterService registerService;
-    @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody MemberAccount memberAccount) throws IOException {
+    @RequestMapping(value = "/api/delete", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<?> delete(@RequestParam("email") String email) throws IOException {
         try{
-            return ResponseEntity.ok(registerService.addMember(memberAccount));
+            return ResponseEntity.ok(deleteService.delete(email));
         }catch (Exception e){
             return ResponseEntity.badRequest().body(
                     Map.of("message", e.getMessage())

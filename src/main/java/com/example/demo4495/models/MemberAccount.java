@@ -2,8 +2,10 @@ package com.example.demo4495.models;
 
 import org.springframework.stereotype.Component;
 
+import java.io.Serializable;
+
 @Component
-public class MemberAccount {
+public class MemberAccount implements Serializable {
     private String email;
     private String password;
 
